@@ -2,10 +2,10 @@ import React from "react";
 import Image from "next/image";
 
 const Nav = () => {
-  const isSignedIn = true;
+  const isSignedIn = false;
 
   return (
-    <nav className="w-full flex justify-between p-3 px-5 shadow-md">
+    <nav className="w-full flex justify-between p-3 px-6 shadow-md">
       <div className="flex gap-4">
         <Image
           src="/assets/images/logo.svg"
@@ -41,10 +41,9 @@ const Nav = () => {
           </>
         ) : (
           <>
-            {" "}
             <button className="font-medium">Log In</button>
             <button className="font-medium bg-black text-white rounded-full px-4">
-              Sign Up
+              Log In
             </button>
           </>
         )}
