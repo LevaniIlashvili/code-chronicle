@@ -10,6 +10,7 @@ import {
   LiteralUnion,
 } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers/index";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
   const { data: session } = useSession();
@@ -17,6 +18,7 @@ const Nav = () => {
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
   > | null>(null);
+  const router = useRouter();
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   useEffect(() => {
@@ -46,7 +48,10 @@ const Nav = () => {
           <>
             {/* Desktop Navigation */}
             <div className="hidden sm:flex items-center gap-4">
-              <div className="flex gap-1">
+              <div
+                className="flex gap-1  cursor-pointer"
+                onClick={() => router.push("/write-blog")}
+              >
                 <Image
                   className="fill-red-500"
                   src="/assets/icons/write.svg"
