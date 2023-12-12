@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import "@/styles/globals.css";
 import Nav from "@/components/Nav";
+import Provider from "@/components/Provider";
 
 export const metadata: Metadata = {
   title: "Code Chronicle",
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Nav />
-        {children}
+        <Provider>
+          <Nav />
+          {children}
+        </Provider>
       </body>
     </html>
   );
