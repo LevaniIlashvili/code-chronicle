@@ -31,7 +31,10 @@ const Nav = () => {
 
   return (
     <nav className="w-full flex justify-between items-center p-3 px-6 sm:px-10 shadow-md">
-      <div className="flex gap-4">
+      <div
+        className="flex gap-4 cursor-pointer"
+        onClick={() => router.push("/")}
+      >
         <Image
           src="/assets/images/logo.svg"
           alt="robot head logo"
@@ -68,7 +71,7 @@ const Nav = () => {
                 Sign Out
               </button>
               <Image
-                src={session?.user?.image}
+                src={session?.user?.image!}
                 alt="profile picture"
                 width={35}
                 height={35}
@@ -78,7 +81,7 @@ const Nav = () => {
             {/* Mobile Navigation */}
             <div className="relative sm:hidden">
               <Image
-                src={session?.user?.image}
+                src={session?.user?.image!}
                 alt="profile picture"
                 width={35}
                 height={35}
