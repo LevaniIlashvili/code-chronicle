@@ -1,7 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.bubble.css";
 import {
   getStorage,
   ref,
@@ -9,6 +7,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { app } from "@/utils/firebase";
+import TextEditor from "@/components/TextEditor";
 
 const page = () => {
   const [content, setContent] = useState("");
@@ -81,7 +80,7 @@ const page = () => {
           htmlFor="media"
           className="w-fit cursor-pointer bg-gray-300 p-1 px-2 mb-2 rounded-sm"
         >
-          {image ? image.name : "Upload Image"}
+          {image ? image.name : "Upload Cover Image"}
         </label>
         <input
           type="file"
@@ -101,13 +100,7 @@ const page = () => {
           value={title}
           onChange={(e) => setTitle((e.target as HTMLInputElement).value)}
         />
-        <ReactQuill
-          theme="bubble"
-          value={content}
-          onChange={setContent}
-          placeholder="Tell your story..."
-          className="min-h-[50vh] w-full mt-4"
-        />
+        <TextEditor content={content} setContent={setContent} />
         <p className="text-xs text-gray-500">
           Highlight text to change it's style
         </p>
