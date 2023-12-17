@@ -23,9 +23,11 @@ const Feed = () => {
 
   return (
     <section className="flex flex-col items-center gap-8 p-10">
-      {blogs.map((blog: Blog) => {
-        return <BlogCard key={blog._id} blog={blog} />;
-      })}
+      {blogs
+        .sort((prev, next) => (prev.dateCreated > next.dateCreated ? -1 : 1))
+        .map((blog: Blog) => {
+          return <BlogCard key={blog._id} blog={blog} />;
+        })}
     </section>
   );
 };
