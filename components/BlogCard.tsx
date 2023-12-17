@@ -2,12 +2,14 @@ import React from "react";
 import Image from "next/image";
 import { Blog } from "@/types/index";
 import { formatDate } from "@/utils/helpers";
+import { useRouter } from "next/navigation";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
+  const router = useRouter();
   const desc = blog.content.replace(/<[^>]*>?/gm, "").replace(/&nbsp;/g, " ");
 
   return (
-    <article className="w-full max-w-[680px] h-[145px] overflow-hidden flex flex-col gap-2">
+    <article className="w-full max-w-[680px] h-full md:h-[145px] overflow-hidden flex flex-col gap-2">
       <div className="flex items-center gap-4">
         <Image
           src={blog.creator.image}
@@ -20,8 +22,11 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         <span>·</span>
         <span className="text-sm">{formatDate(blog.dateCreated)}</span>
       </div>
-      <div className="flex justify-between">
-        <div className="max-w-[500px]">
+      <div
+        className="flex justify-between cursor-pointer"
+        onClick={() => router.push(`/blog/${blog._id}`)}
+      >
+        <div>
           <h1 className="font-bold leading-6 text-base md:text-xl mb-2 line-clamp-2 overflow-hidden text-ellipsis">
             {blog.title}
           </h1>
