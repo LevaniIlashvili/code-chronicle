@@ -1,13 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import BlogCard from "./BlogCard";
-
-interface Blog {
-  image: string;
-  title: string;
-  content: string;
-  _id: string;
-}
+import { Blog } from "@/types/index";
 
 const Feed = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -28,9 +22,9 @@ const Feed = () => {
   }, []);
 
   return (
-    <section className="flex justify-center p-10">
+    <section className="flex flex-col items-center gap-8 p-10">
       {blogs.map((blog: Blog) => {
-        return <BlogCard key={blog._id} {...blog} />;
+        return <BlogCard key={blog._id} blog={blog} />;
       })}
     </section>
   );
