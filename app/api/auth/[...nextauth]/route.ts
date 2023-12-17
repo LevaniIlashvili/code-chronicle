@@ -1,16 +1,7 @@
-import NextAuth, { Session } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { User } from "@/models/user";
 import { connectToDb } from "@/utils/database";
-
-interface CustomSession extends Session {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    picture?: string | null;
-    id?: string;
-  } & Session["user"];
-}
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   throw new Error("Missing Google Client ID or Secret");
@@ -24,7 +15,7 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async session({ session }: { session: CustomSession }) {
+    async session({ session }) {
       if (!session || !session.user) return session;
 
       const sessionUser = await User.findOne({ email: session.user.email });
