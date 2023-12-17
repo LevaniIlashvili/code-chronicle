@@ -8,12 +8,14 @@ import {
 } from "firebase/storage";
 import { app } from "@/utils/firebase";
 import TextEditor from "@/components/TextEditor";
+import { useSession } from "next-auth/react";
 
 const page = () => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [imageURL, setImageURL] = useState("");
+  const { data: session } = useSession();
 
   const storage = getStorage(app);
 
@@ -54,11 +56,17 @@ const page = () => {
 
   const publish = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    if (!session || !session.user)
+      return alert("You must be logged in to publish a blog");
     try {
-      console.log(title, content);
       const res = await fetch("/api/blog/new", {
         method: "POST",
-        body: JSON.stringify({ title, content, image: imageURL }),
+        body: JSON.stringify({
+          title,
+          content,
+          image: imageURL,
+          userId: session.user.id,
+        }),
         headers: {
           "Content-Type": "application/json",
         },

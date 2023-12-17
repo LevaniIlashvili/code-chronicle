@@ -3,16 +3,22 @@ import { Blog } from "@/models/blog";
 
 export const POST = async (req: {
   json: () => PromiseLike<{
+    userId: string;
     title: string;
     content: string;
     image: string | null;
   }>;
 }) => {
-  const { title, content, image } = await req.json();
+  const { title, content, image, userId } = await req.json();
   try {
     await connectToDb();
 
-    const blog = new Blog({ title, content, image });
+    const blog = new Blog({
+      title,
+      content,
+      image,
+      creator: userId,
+    });
 
     await blog.save();
 
