@@ -1,45 +1,41 @@
-import React, { useRef, useEffect } from "react";
-import Quill from "quill";
-import "quill/dist/quill.bubble.css";
-import "highlight.js/styles/github.css";
+import React, { useCallback } from "react";
+import "highlight.js/styles/default.css";
 import hljs from "highlight.js";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.bubble.css";
 
-const TextEditor = ({ content, setContent }) => {
-  const quillRef = useRef(null);
-
-  useEffect(() => {
-    if (quillRef.current) {
-      const quill = new Quill(quillRef.current, {
-        theme: "bubble",
-        modules: {
-          syntax: {
-            highlight: (text) => hljs.highlightAuto(text).value,
-          },
-          toolbar: [
-            [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline", "strike", "blockquote"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            ["link", "image", "code-block"],
-            ["clean"],
-          ],
-        },
-      });
-
-      quill.on("text-change", () => {
-        setContent(quill.root.innerHTML);
-      });
-
-      quill.on("selection-change", (range, oldRange, source) => {
-        quill.getModule("toolbar").container.style.display = "";
-      });
-
-      quill.root.innerHTML = content;
-    }
-  }, []);
+const TextEditor = ({
+  content,
+  setContent,
+}: {
+  content: string;
+  setContent: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image", "code-block"],
+      ["clean"],
+    ],
+    syntax: {
+      highlight: useCallback(
+        (text: string) => hljs.highlightAuto(text).value,
+        []
+      ), // Ensure stable reference
+    },
+  };
 
   return (
     <div>
-      <div ref={quillRef} style={{ height: "300px" }} />
+      {/* text editor height is set in global.css  */}
+      <ReactQuill
+        theme="bubble"
+        value={content}
+        onChange={setContent}
+        modules={modules}
+      />
     </div>
   );
 };
