@@ -2,6 +2,7 @@ export interface Blog {
   image: string;
   title: string;
   content: string;
+  dateCreated: string;
   _id: string;
   creator: {
     email: string;

@@ -66,6 +66,7 @@ const page = () => {
           content,
           image: imageURL,
           userId: session.user.id,
+          dateCreated: new Date(),
         }),
         headers: {
           "Content-Type": "application/json",

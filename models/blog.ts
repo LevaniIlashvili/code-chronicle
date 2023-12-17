@@ -14,6 +14,10 @@ const BlogSchema = new Schema({
     required: [true, "Content is required"],
   },
   image: { type: String },
+  dateCreated: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 export const Blog = models.Blog || model("Blog", BlogSchema);

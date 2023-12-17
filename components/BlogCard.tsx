@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Blog } from "@/types/index";
+import { formatDate } from "@/utils/helpers";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const desc = blog.content.replace(/<[^>]*>?/gm, "").replace(/&nbsp;/g, " ");
@@ -15,7 +16,9 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
           height={24}
           className="rounded-full"
         />
-        <p className="text-sm">{blog.creator.username}</p>
+        <span className="text-sm">{blog.creator.username}</span>
+        <span>·</span>
+        <span className="text-sm">{formatDate(blog.dateCreated)}</span>
       </div>
       <div className="flex justify-between">
         <div className="max-w-[500px]">

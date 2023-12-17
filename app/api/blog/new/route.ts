@@ -7,9 +7,10 @@ export const POST = async (req: {
     title: string;
     content: string;
     image: string | null;
+    dateCreated: string;
   }>;
 }) => {
-  const { title, content, image, userId } = await req.json();
+  const { title, content, image, userId, dateCreated } = await req.json();
   try {
     await connectToDb();
 
@@ -18,6 +19,7 @@ export const POST = async (req: {
       content,
       image,
       creator: userId,
+      dateCreated,
     });
 
     await blog.save();
