@@ -5,3 +5,13 @@
 .ql-editor {
   min-height: 20rem;
 }
+
+.blog_post {
+  @apply text-[#242424] 
+   [&>h1]:text-2xl [&>h1]:font-bold [&>h1]:mt-9
+   [&>h2]:text-xl [&>h2]:font-bold [&>h2]:mt-9
+   [&>p]:text-xl [&>p]:leading-8 [&>p]:mt-4 
+   [&>em]:italic 
+   [&>pre]:mt-12 [&>pre]:p-8 [&>pre]:bg-zinc-100 [&>pre]:rounded-sm [&>pre]:border-gray-200 [&>pre]:border-[1px] [&>pre]:overflow-x-auto 
+   [&>blockquote]:-ml-4 [&>blockquote]:pl-6 [&>blockquote]:border-l-[3px] [&>blockquote]:border-gray-900 [&>blockquote]:mt-10 [&>blockquote]:text-xl;
+}
