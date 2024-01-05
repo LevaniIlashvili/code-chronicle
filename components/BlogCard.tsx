@@ -16,9 +16,23 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
           alt="creator_image"
           width={24}
           height={24}
-          className="rounded-full"
+          className="rounded-full cursor-pointer"
+          onClick={() =>
+            router.push(
+              `/profile/${blog.creator._id}?name=${blog.creator.username}`
+            )
+          }
         />
-        <span className="text-sm">{blog.creator.username}</span>
+        <span
+          className="text-sm cursor-pointer"
+          onClick={() =>
+            router.push(
+              `/profile/${blog.creator._id}?name=${blog.creator.username}`
+            )
+          }
+        >
+          {blog.creator.username}
+        </span>
         <span>·</span>
         <span className="text-sm">{formatDate(blog.dateCreated)}</span>
       </div>
