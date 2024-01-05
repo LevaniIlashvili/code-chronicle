@@ -21,6 +21,8 @@ const Nav = () => {
   const router = useRouter();
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
+  console.log(session?.user);
+
   useEffect(() => {
     const fetchProviders = async () => {
       const providers = await getProviders();
@@ -50,7 +52,7 @@ const Nav = () => {
         {session?.user ? (
           <>
             {/* Desktop Navigation */}
-            <div className="hidden sm:flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-4 relative">
               <div
                 className="flex gap-1  cursor-pointer"
                 onClick={() => router.push("/write-blog")}
@@ -75,8 +77,42 @@ const Nav = () => {
                 alt="profile picture"
                 width={35}
                 height={35}
-                className="rounded-full"
+                className="rounded-full cursor-pointer"
+                onClick={() => setToggleDropdown((prevState) => !prevState)}
               />
+              {toggleDropdown && (
+                <div className="flex flex-col gap-2 absolute top-full -right-4 bg-white w-40 p-2 mt-2 shadow-md items-start">
+                  <button
+                    type="button"
+                    className="flex gap-4"
+                    onClick={() =>
+                      router.push(
+                        `/profile/${session?.user?.id}?name=${session?.user?.name}`
+                      )
+                    }
+                  >
+                    <Image
+                      src="/assets/icons/profile.svg"
+                      alt="profile-icon"
+                      width={20}
+                      height={20}
+                    />
+                    Profile
+                  </button>
+                  <button
+                    className="flex gap-4"
+                    onClick={() => router.push("/library")}
+                  >
+                    <Image
+                      src="/assets/icons/bookmark.svg"
+                      alt="bookmark icon"
+                      width={20}
+                      height={20}
+                    />
+                    Library
+                  </button>
+                </div>
+              )}
             </div>
             {/* Mobile Navigation */}
             <div className="relative sm:hidden">
