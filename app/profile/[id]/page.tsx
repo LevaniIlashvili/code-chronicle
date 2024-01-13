@@ -1,6 +1,5 @@
 "use client";
 import BlogCard from "@/components/BlogCard";
-import Feed from "@/components/Feed";
 import { Blog } from "@/types";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -25,9 +24,11 @@ const page = ({ params }: { params: { id: string } }) => {
       <div className="flex flex-col items-center gap-8">
         {blogs.length > 0 ? (
           <>
-            {blogs.map((blog) => (
-              <BlogCard blog={blog} key={blog._id} />
-            ))}
+            {blogs
+              .sort((a, b) => (a.dateCreated > b.dateCreated ? -1 : 1))
+              .map((blog) => (
+                <BlogCard blog={blog} key={blog._id} />
+              ))}
           </>
         ) : (
           <p className="text-xl">No blogs yet</p>
