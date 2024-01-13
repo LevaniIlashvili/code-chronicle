@@ -11,6 +11,7 @@ const UserSchema = new Schema({
     required: [true, "Username is required"],
   },
   image: { type: String },
+  savedBlogs: [{ type: Schema.Types.ObjectId, ref: "Blog" }],
 });
 
 export const User = models.User || model("User", UserSchema);
