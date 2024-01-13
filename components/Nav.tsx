@@ -31,6 +31,14 @@ const Nav = () => {
     fetchProviders();
   }, []);
 
+  useEffect(() => {
+    const closeDropdown = () => {
+      setToggleDropdown(false);
+    };
+    window.addEventListener("click", closeDropdown);
+    return () => window.removeEventListener("click", closeDropdown);
+  }, []);
+
   return (
     <nav className="w-full flex justify-between items-center p-3 px-6 sm:px-10 shadow-md">
       <div
@@ -78,7 +86,10 @@ const Nav = () => {
                 width={35}
                 height={35}
                 className="rounded-full cursor-pointer"
-                onClick={() => setToggleDropdown((prevState) => !prevState)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setToggleDropdown((prevState) => !prevState);
+                }}
               />
               {toggleDropdown && (
                 <div className="flex flex-col gap-2 absolute top-full -right-4 bg-white w-40 p-2 mt-2 shadow-md items-start">
@@ -122,11 +133,14 @@ const Nav = () => {
                 width={35}
                 height={35}
                 className="rounded-full"
-                onClick={() => setToggleDropdown((prevState) => !prevState)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setToggleDropdown((prevState) => !prevState);
+                }}
               />
               {toggleDropdown && (
                 <div className="flex flex-col gap-2 absolute top-full right-0 bg-white w-32 p-2 mt-2 shadow-sm">
-                  <div className="flex gap-1">
+                  <div className="flex gap-4">
                     <Image
                       className="fill-red-500"
                       src="/assets/icons/write.svg"
@@ -136,6 +150,35 @@ const Nav = () => {
                     />
                     <button className="font-medium">Write</button>
                   </div>
+                  <button
+                    type="button"
+                    className="flex gap-4"
+                    onClick={() =>
+                      router.push(
+                        `/profile/${session?.user?.id}?name=${session?.user?.name}`
+                      )
+                    }
+                  >
+                    <Image
+                      src="/assets/icons/profile.svg"
+                      alt="profile-icon"
+                      width={20}
+                      height={20}
+                    />
+                    Profile
+                  </button>
+                  <button
+                    className="flex gap-4"
+                    onClick={() => router.push("/library")}
+                  >
+                    <Image
+                      src="/assets/icons/bookmark.svg"
+                      alt="bookmark icon"
+                      width={20}
+                      height={20}
+                    />
+                    Library
+                  </button>
                   <button
                     className="font-medium bg-black text-white rounded-full px-4 py-1"
                     onClick={() => signOut()}
