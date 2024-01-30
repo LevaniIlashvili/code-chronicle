@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import "@/styles/globals.css";
 import Nav from "@/components/Nav";
 import Provider from "@/components/Provider";
+import StoreProvider from "./StoreProvider";
 
 export const metadata: Metadata = {
   title: "Code Chronicle",
@@ -16,12 +17,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Provider>
-          <main>
-            <Nav />
-            {children}
-          </main>
-        </Provider>
+        <StoreProvider>
+          <Provider>
+            <main>
+              <Nav />
+              {children}
+            </main>
+          </Provider>
+        </StoreProvider>
       </body>
     </html>
   );

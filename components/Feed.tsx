@@ -2,17 +2,19 @@
 import React, { useEffect, useState } from "react";
 import BlogCard from "./BlogCard";
 import { Blog } from "@/types/index";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setBlogs } from "@/lib/features/blogs/blogsSlice";
 
 const Feed = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const blogs = useAppSelector((state) => state.blogs);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const res = await fetch("/api/blog");
         const data = await res.json();
-        setBlogs(data);
-        console.log(data);
+        dispatch(setBlogs(data));
       } catch (error) {
         console.log(error);
       }
@@ -21,9 +23,11 @@ const Feed = () => {
     fetchBlogs();
   }, []);
 
+  if (!blogs) return <p>Loading...</p>;
+
   return (
     <section className="flex flex-col items-center gap-8 p-10">
-      {blogs
+      {[...blogs]
         .sort((prev, next) => (prev.dateCreated > next.dateCreated ? -1 : 1))
         .map((blog: Blog) => {
           return <BlogCard key={blog._id} blog={blog} />;

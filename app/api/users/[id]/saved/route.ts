@@ -10,6 +10,7 @@ export const GET = async (req: any, { params }: { params: { id: string } }) => {
     });
     return new Response(JSON.stringify(user.savedBlogs), { status: 200 });
   } catch (error) {
+    console.log(error);
     return new Response(JSON.stringify(error), { status: 500 });
   }
 };

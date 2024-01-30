@@ -4,18 +4,18 @@ import { Blog } from "@/types/index";
 import { formatDate } from "@/utils/helpers";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setLibrary } from "@/lib/features/library/librarySlice";
+import { removeBlog } from "@/lib/features/blogs/blogsSlice";
 
-const BlogCard = ({
-  blog,
-  triggerRefresh,
-}: {
-  blog: Blog;
-  triggerRefresh?: () => void;
-}) => {
+const BlogCard = ({ blog }: { blog: Blog }) => {
   const { data: session } = useSession();
   const router = useRouter();
   const desc = blog.content.replace(/<[^>]*>?/gm, "").replace(/&nbsp;/g, " ");
   const [isBlogSaved, setIsBlogSaved] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const library = useAppSelector((state) => state.library);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchSavedBlogs = async () => {
@@ -31,6 +31,12 @@ const BlogCard = ({
     };
     if (session?.user.id) fetchSavedBlogs();
   }, []);
+
+  useEffect(() => {
+    const closeDropdown = () => setDropdownOpen(false);
+    document.addEventListener("click", closeDropdown);
+    return () => document.removeEventListener("click", closeDropdown);
+  }, [dropdownOpen]);
 
   const saveBlog = async () => {
     setIsBlogSaved(true);
@@ -48,22 +54,28 @@ const BlogCard = ({
 
   const unsaveBlog = async () => {
     setIsBlogSaved(false);
-    // trigger refresh of library page
-    if (triggerRefresh) triggerRefresh();
     try {
-      const res = await fetch(`/api/users/${session?.user.id}/saved`, {
+      await fetch(`/api/users/${session?.user.id}/saved`, {
         method: "DELETE",
         body: JSON.stringify({ blogId: blog._id }),
       });
-      const data = await res.json();
-      console.log(data);
+      dispatch(setLibrary(library.filter((item) => item._id !== blog._id)));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteBlog = async () => {
+    try {
+      await fetch(`/api/blog/${blog._id}`, { method: "DELETE" });
+      dispatch(removeBlog(blog._id));
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <article className="w-full max-w-[680px] h-full md:h-[145px] overflow-hidden flex flex-col gap-2">
+    <article className="w-full max-w-[680px] h-full md:h-[145px] overflow-hidden flex flex-col gap-2 relative">
       <div className="flex justify-between max-w-[512px]">
         <div className="flex items-center gap-4">
           <Image
@@ -91,25 +103,56 @@ const BlogCard = ({
           <span>·</span>
           <span className="text-sm">{formatDate(blog.dateCreated)}</span>
         </div>
-        {session && session.user.id && isBlogSaved ? (
-          <Image
-            src="/assets/icons/bookmark-filled.svg"
-            alt="save icon"
-            width={18}
-            height={18}
-            className="cursor-pointer"
-            onClick={unsaveBlog}
-          />
-        ) : (
-          <Image
-            src="/assets/icons/bookmark.svg"
-            alt="save icon"
-            width={18}
-            height={18}
-            className="cursor-pointer"
-            onClick={saveBlog}
-          />
-        )}
+        <div className="flex gap-4">
+          {session &&
+            session.user.id &&
+            (isBlogSaved ? (
+              <Image
+                src="/assets/icons/bookmark-filled.svg"
+                alt="save icon"
+                width={18}
+                height={18}
+                className="cursor-pointer"
+                onClick={unsaveBlog}
+              />
+            ) : (
+              <Image
+                src="/assets/icons/bookmark.svg"
+                alt="save icon"
+                width={18}
+                height={18}
+                className="cursor-pointer"
+                onClick={saveBlog}
+              />
+            ))}
+          {blog.creator._id === session?.user.id && (
+            <Image
+              src="/assets/icons/three-dots.svg"
+              alt="menu icon"
+              width={18}
+              height={18}
+              className="cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                setDropdownOpen((prev) => !prev);
+              }}
+            />
+          )}
+          {dropdownOpen && (
+            <div className="absolute top-6 w-24 h-10 bg-white rounded-sm shadow-md flex items-center justify-center">
+              <button
+                type="button"
+                className="text-sm text-red-400 hover:text-black"
+                onClick={(e) => {
+                  e.preventDefault();
+                  deleteBlog();
+                }}
+              >
+                Delete Blog
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       <div
         className="flex justify-between cursor-pointer"

@@ -9,6 +9,8 @@ import {
 import { app } from "@/utils/firebase";
 import TextEditor from "@/components/TextEditor";
 import { useSession } from "next-auth/react";
+import { useAppDispatch } from "@/lib/hooks";
+import { addBlog } from "@/lib/features/blogs/blogsSlice";
 
 const page = () => {
   const [content, setContent] = useState("");
@@ -16,6 +18,7 @@ const page = () => {
   const [image, setImage] = useState<File | null>(null);
   const [imageURL, setImageURL] = useState("");
   const { data: session } = useSession();
+  const dispatch = useAppDispatch();
 
   const storage = getStorage(app);
 
@@ -73,6 +76,7 @@ const page = () => {
         },
       });
       const data = await res.json();
+      dispatch(addBlog(data));
       setTitle("");
       setContent("");
       setImage(null);
