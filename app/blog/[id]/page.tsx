@@ -27,7 +27,7 @@ const page = ({ params }: { params: { id: string } }) => {
 
   return (
     <section className="flex justify-center mb-20">
-      <article className="max-w-[680px]">
+      <article className="max-w-[680px] w-full">
         <h1 className="text-[#242424] text-4xl font-bold mb-10 mt-12">
           {blog?.title}
         </h1>

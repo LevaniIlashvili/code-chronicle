@@ -10,19 +10,34 @@ import { app } from "@/utils/firebase";
 import TextEditor from "@/components/TextEditor";
 import { useSession } from "next-auth/react";
 import { useAppDispatch } from "@/lib/hooks";
-import { addBlog } from "@/lib/features/blogs/blogsSlice";
+import { updateBlog } from "@/lib/features/blogs/blogsSlice";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const page = ({ params }: { params: { id: string } }) => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [imageURL, setImageURL] = useState("");
   const { data: session } = useSession();
-  const router = useRouter();
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const storage = getStorage(app);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const res = await fetch(`/api/blog/${params.id}`);
+        const data = await res.json();
+        setTitle(data.title);
+        setContent(data.content);
+        setImageURL(data.image);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchBlog();
+  }, [params.id]);
 
   useEffect(() => {
     const uploadImage = () => {
@@ -59,13 +74,13 @@ const page = () => {
     uploadImage();
   }, [image]);
 
-  const publish = async (e: { preventDefault: () => void }) => {
+  const edit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (!session || !session.user)
-      return alert("You must be logged in to publish a blog");
+      return alert("You must be logged in to edit a blog");
     try {
-      const res = await fetch("/api/blog/new", {
-        method: "POST",
+      const res = await fetch(`/api/blog/${params.id}`, {
+        method: "PUT",
         body: JSON.stringify({
           title,
           content,
@@ -78,7 +93,7 @@ const page = () => {
         },
       });
       const data = await res.json();
-      dispatch(addBlog(data));
+      dispatch(updateBlog(data));
       setTitle("");
       setContent("");
       setImage(null);
@@ -120,12 +135,16 @@ const page = () => {
         <p className="text-xs text-gray-500">
           Highlight text to change it's style
         </p>
-        <button
-          className="bg-green-600 text-white font-semibold rounded-full w-fit p-1 px-4"
-          onClick={publish}
-        >
-          Publish
-        </button>
+        <div className="flex gap-2">
+          <button>Cancel</button>
+          <button
+            className="bg-green-600 text-white font-semibold rounded-full w-fit p-1 px-4"
+            type="button"
+            onClick={edit}
+          >
+            Edit
+          </button>
+        </div>
       </div>
     </section>
   );

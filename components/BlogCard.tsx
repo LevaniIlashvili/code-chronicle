@@ -139,7 +139,14 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
             />
           )}
           {dropdownOpen && (
-            <div className="absolute top-6 w-24 h-10 bg-white rounded-sm shadow-md flex items-center justify-center">
+            <div className="absolute top-6 bg-white rounded-sm shadow-md flex flex-col items-start justify-center p-2 gap-2">
+              <button
+                className="text-sm"
+                type="button"
+                onClick={() => router.push(`/blog/${blog._id}/edit-blog`)}
+              >
+                Edit Blog
+              </button>
               <button
                 type="button"
                 className="text-sm text-red-400 hover:text-black"
