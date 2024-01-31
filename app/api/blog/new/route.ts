@@ -1,15 +1,7 @@
 import { connectToDb } from "@/utils/database";
 import { Blog } from "@/models/blog";
 
-export const POST = async (req: {
-  json: () => PromiseLike<{
-    userId: string;
-    title: string;
-    content: string;
-    image: string | null;
-    dateCreated: string;
-  }>;
-}) => {
+export const POST = async (req: Request) => {
   const { title, content, image, userId, dateCreated } = await req.json();
   try {
     await connectToDb();

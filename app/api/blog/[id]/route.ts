@@ -1,5 +1,4 @@
 import { Blog } from "@/models/blog";
-import { Blog as BlogType } from "@/types";
 import { connectToDb } from "@/utils/database";
 
 export const GET = async (req: any, { params }: { params: { id: string } }) => {
@@ -15,7 +14,7 @@ export const GET = async (req: any, { params }: { params: { id: string } }) => {
 };
 
 export const PUT = async (
-  req: { json: () => PromiseLike<{ blog: BlogType }> },
+  req: Request,
   { params }: { params: { id: string } }
 ) => {
   try {
