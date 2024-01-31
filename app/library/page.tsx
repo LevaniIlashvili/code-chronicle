@@ -13,7 +13,9 @@ const page = () => {
   useEffect(() => {
     if (!session?.user.id) return;
     const fetchBlogs = async () => {
-      const res = await fetch(`/api/users/${session?.user.id}/saved`);
+      const res = await fetch(`/api/users/${session?.user.id}/saved`, {
+        cache: "no-store",
+      });
       const data = await res.json();
       dispatch(setLibrary(data));
     };

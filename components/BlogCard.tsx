@@ -20,7 +20,9 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
   useEffect(() => {
     const fetchSavedBlogs = async () => {
       try {
-        const res = await fetch(`/api/users/${session?.user.id}/saved`);
+        const res = await fetch(`/api/users/${session?.user.id}/saved`, {
+          cache: "no-store",
+        });
         const data = await res.json();
         if (data.map((blog: Blog) => blog._id).includes(blog._id)) {
           setIsBlogSaved(true);

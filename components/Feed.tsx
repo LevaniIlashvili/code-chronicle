@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import BlogCard from "./BlogCard";
 import { Blog } from "@/types/index";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -12,7 +12,9 @@ const Feed = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch("/api/blog");
+        const res = await fetch("/api/blog", {
+          cache: "no-store",
+        });
         const data = await res.json();
         dispatch(setBlogs(data));
       } catch (error) {

@@ -11,7 +11,9 @@ const page = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const res = await fetch(`/api/users/${params.id}/blogs`);
+      const res = await fetch(`/api/users/${params.id}/blogs`, {
+        cache: "no-store",
+      });
       const blogs = await res.json();
       setBlogs(blogs);
     };
