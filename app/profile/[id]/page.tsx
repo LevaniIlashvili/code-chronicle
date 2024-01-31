@@ -9,8 +9,6 @@ const page = ({ params }: { params: { id: string } }) => {
   const searchParams = useSearchParams();
   const name = searchParams.get("name");
 
-  const [refresh, setRefresh] = useState(false);
-
   useEffect(() => {
     const fetchBlogs = async () => {
       const res = await fetch(`/api/users/${params.id}/blogs`);

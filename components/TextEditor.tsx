@@ -1,3 +1,4 @@
+"use client";
 import React, { useCallback } from "react";
 import "highlight.js/styles/default.css";
 import hljs from "highlight.js";
