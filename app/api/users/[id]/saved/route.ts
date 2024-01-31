@@ -33,7 +33,7 @@ export const PUT = async (req: any, { params }: { params: { id: string } }) => {
 };
 
 export const DELETE = async (
-  req: { json: () => Promise<{ blogId: string }> },
+  req: Request,
   { params }: { params: { id: string } }
 ) => {
   try {
