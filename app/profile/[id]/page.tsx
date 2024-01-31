@@ -21,8 +21,8 @@ const page = ({ params }: { params: { id: string } }) => {
   }, [params.id]);
 
   return (
-    <section className="flex flex-col items-center gap-10 py-8">
-      <h1 className="text-5xl">{name}'s blogs</h1>
+    <section className="flex flex-col items-center gap-10 p-8">
+      <h1 className="md:text-5xl text-3xl">{name}'s blogs</h1>
       <div className="flex flex-col items-center gap-8">
         {blogs.length > 0 ? (
           <>

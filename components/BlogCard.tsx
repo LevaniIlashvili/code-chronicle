@@ -75,7 +75,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
   };
 
   return (
-    <article className="w-full max-w-[680px] h-full md:h-[145px] overflow-hidden flex flex-col gap-2 relative">
+    <article className="w-full max-w-[680px] h-full md:h-[145px] overflow-hidden flex flex-col gap-2">
       <div className="flex justify-between max-w-[512px]">
         <div className="flex items-center gap-4">
           <Image
@@ -126,37 +126,39 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
               />
             ))}
           {blog.creator._id === session?.user.id && (
-            <Image
-              src="/assets/icons/three-dots.svg"
-              alt="menu icon"
-              width={18}
-              height={18}
-              className="cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                setDropdownOpen((prev) => !prev);
-              }}
-            />
-          )}
-          {dropdownOpen && (
-            <div className="absolute top-6 bg-white rounded-sm shadow-md flex flex-col items-start justify-center p-2 gap-2">
-              <button
-                className="text-sm"
-                type="button"
-                onClick={() => router.push(`/blog/${blog._id}/edit-blog`)}
-              >
-                Edit Blog
-              </button>
-              <button
-                type="button"
-                className="text-sm text-red-400 hover:text-black"
+            <div className="relative">
+              <Image
+                src="/assets/icons/three-dots.svg"
+                alt="menu icon"
+                width={18}
+                height={18}
+                className="cursor-pointer"
                 onClick={(e) => {
-                  e.preventDefault();
-                  deleteBlog();
+                  e.stopPropagation();
+                  setDropdownOpen((prev) => !prev);
                 }}
-              >
-                Delete Blog
-              </button>
+              />
+              {dropdownOpen && (
+                <div className="absolute top-6 -right-2 bg-white rounded-sm shadow-md flex flex-col items-start justify-center px-2 py-2 gap-1">
+                  <button
+                    className="text-sm text-gray-500 hover:text-black whitespace-nowrap"
+                    type="button"
+                    onClick={() => router.push(`/blog/${blog._id}/edit-blog`)}
+                  >
+                    Edit Blog
+                  </button>
+                  <button
+                    type="button"
+                    className="text-sm text-red-400 hover:text-black whitespace-nowrap"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      deleteBlog();
+                    }}
+                  >
+                    Delete Blog
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

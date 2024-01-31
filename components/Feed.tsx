@@ -26,7 +26,7 @@ const Feed = () => {
   if (!blogs) return <p>Loading...</p>;
 
   return (
-    <section className="flex flex-col items-center gap-8 p-10">
+    <section className="flex flex-col items-center gap-8 p-8">
       {[...blogs]
         .sort((prev, next) => (prev.dateCreated > next.dateCreated ? -1 : 1))
         .map((blog: Blog) => {

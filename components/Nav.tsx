@@ -139,8 +139,11 @@ const Nav = () => {
                 }}
               />
               {toggleDropdown && (
-                <div className="flex flex-col gap-2 absolute top-full right-0 bg-white w-32 p-2 mt-2 shadow-sm">
-                  <div className="flex gap-4">
+                <div className="flex flex-col gap-2 absolute top-full right-0 bg-white w-32 p-2 mt-2 shadow-md z-10">
+                  <div
+                    className="flex gap-4"
+                    onClick={() => router.push("/write-blog")}
+                  >
                     <Image
                       className="fill-red-500"
                       src="/assets/icons/write.svg"

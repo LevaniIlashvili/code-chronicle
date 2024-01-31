@@ -21,7 +21,7 @@ const page = () => {
   }, [session]);
 
   return (
-    <section className="flex flex-col items-center gap-10 py-8">
+    <section className="flex flex-col items-center gap-10 p-8">
       <h1 className="text-5xl">Library</h1>
       <div className="flex flex-col items-center gap-8">
         {blogs.length > 0 ? (
