@@ -7,11 +7,15 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { app } from "@/utils/firebase";
-import TextEditor from "@/components/TextEditor";
 import { useSession } from "next-auth/react";
 import { useAppDispatch } from "@/lib/hooks";
 import { addBlog } from "@/lib/features/blogs/blogsSlice";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const TextEditor = dynamic(() => import("@/components/TextEditor"), {
+  ssr: false,
+});
 
 const page = () => {
   const [content, setContent] = useState("");
