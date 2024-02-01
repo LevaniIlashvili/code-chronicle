@@ -3,10 +3,8 @@ import BlogCard from "@/components/BlogCard";
 import { Blog } from "@/types";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { unstable_noStore as no_store } from "next/cache";
 
 const page = ({ params }: { params: { id: string } }) => {
-  no_store();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const searchParams = useSearchParams();
   const name = searchParams.get("name");

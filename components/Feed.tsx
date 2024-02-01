@@ -4,10 +4,8 @@ import BlogCard from "./BlogCard";
 import { Blog } from "@/types/index";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setBlogs } from "@/lib/features/blogs/blogsSlice";
-import { unstable_noStore as no_store } from "next/cache";
 
 const Feed = () => {
-  no_store();
   const blogs = useAppSelector((state) => state.blogs);
   const dispatch = useAppDispatch();
 
