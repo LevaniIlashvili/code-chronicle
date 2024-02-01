@@ -21,12 +21,14 @@ const Nav = () => {
   const router = useRouter();
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
-  console.log(session?.user);
-
   useEffect(() => {
     const fetchProviders = async () => {
-      const providers = await getProviders();
-      setProviders(providers);
+      try {
+        const providers = await getProviders();
+        setProviders(providers);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchProviders();
   }, []);

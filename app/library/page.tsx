@@ -13,9 +13,13 @@ const page = () => {
   useEffect(() => {
     if (!session?.user.id) return;
     const fetchBlogs = async () => {
-      const res = await fetch(`/api/users/${session?.user.id}/saved`);
-      const data = await res.json();
-      dispatch(setLibrary(data));
+      try {
+        const res = await fetch(`/api/users/${session?.user.id}/saved`);
+        const data = await res.json();
+        dispatch(setLibrary(data));
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchBlogs();
   }, [session]);

@@ -48,7 +48,6 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         body: JSON.stringify({ blogId: blog._id }),
       });
       const data = await res.json();
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

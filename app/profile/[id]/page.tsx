@@ -11,9 +11,13 @@ const page = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const res = await fetch(`/api/users/${params.id}/blogs`);
-      const blogs = await res.json();
-      setBlogs(blogs);
+      try {
+        const res = await fetch(`/api/users/${params.id}/blogs`);
+        const blogs = await res.json();
+        setBlogs(blogs);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchBlogs();
   }, [params.id]);

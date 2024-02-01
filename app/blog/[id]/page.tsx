@@ -19,7 +19,6 @@ const page = ({ params }: { params: { id: string } }) => {
       }
     };
 
-    console.log(params);
     if (params.id) fetchBlog();
   }, [params.id]);
 
