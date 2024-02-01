@@ -10,13 +10,8 @@ export const GET = async (req: any, { params }: { params: { id: string } }) => {
       path: "savedBlogs",
       populate: { path: "creator", model: "User" },
     });
-    const headers = {
-      "Cache-Control": "no-store, max-age=0",
-      "Content-Type": "application/json",
-    };
     return new Response(JSON.stringify(user.savedBlogs), {
       status: 200,
-      headers,
     });
   } catch (error) {
     console.log(error);
