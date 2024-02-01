@@ -12,8 +12,10 @@ import { useSession } from "next-auth/react";
 import { useAppDispatch } from "@/lib/hooks";
 import { updateBlog } from "@/lib/features/blogs/blogsSlice";
 import { useRouter } from "next/navigation";
+import { unstable_noStore as no_store } from "next/cache";
 
 const page = ({ params }: { params: { id: string } }) => {
+  no_store();
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<File | null>(null);

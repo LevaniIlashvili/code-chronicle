@@ -4,8 +4,10 @@ import { useSession } from "next-auth/react";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setLibrary } from "@/lib/features/library/librarySlice";
+import { unstable_noStore as no_store } from "next/cache";
 
 const page = () => {
+  no_store();
   const dispatch = useAppDispatch();
   const { data: session } = useSession();
   const blogs = useAppSelector((state) => state.library);
@@ -13,9 +15,7 @@ const page = () => {
   useEffect(() => {
     if (!session?.user.id) return;
     const fetchBlogs = async () => {
-      const res = await fetch(`/api/users/${session?.user.id}/saved`, {
-        cache: "no-store",
-      });
+      const res = await fetch(`/api/users/${session?.user.id}/saved`);
       const data = await res.json();
       dispatch(setLibrary(data));
     };

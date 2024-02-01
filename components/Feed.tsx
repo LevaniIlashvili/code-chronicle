@@ -4,17 +4,17 @@ import BlogCard from "./BlogCard";
 import { Blog } from "@/types/index";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setBlogs } from "@/lib/features/blogs/blogsSlice";
+import { unstable_noStore as no_store } from "next/cache";
 
 const Feed = () => {
+  no_store();
   const blogs = useAppSelector((state) => state.blogs);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch("/api/blog", {
-          cache: "no-store",
-        });
+        const res = await fetch("/api/blog");
         const data = await res.json();
         dispatch(setBlogs(data));
       } catch (error) {

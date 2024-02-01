@@ -4,8 +4,10 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import "highlight.js/styles/default.css";
 import { formatDate } from "@/utils/helpers";
+import { unstable_noStore as no_store } from "next/cache";
 
 const page = ({ params }: { params: { id: string } }) => {
+  no_store();
   const [blog, setBlog] = useState<Blog | null>(null);
 
   useEffect(() => {
