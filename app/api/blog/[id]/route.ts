@@ -7,7 +7,12 @@ export const GET = async (req: any, { params }: { params: { id: string } }) => {
 
     const blog = await Blog.findById(params.id).populate("creator");
 
-    return new Response(JSON.stringify(blog), { status: 200 });
+    const headers = {
+      "Cache-Control": "no-store, max-age=0",
+      "Content-Type": "application/json",
+    };
+
+    return new Response(JSON.stringify(blog), { status: 200, headers });
   } catch (error) {
     return new Response(JSON.stringify(error), { status: 500 });
   }
