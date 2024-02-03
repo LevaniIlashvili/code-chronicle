@@ -15,8 +15,8 @@ const Feed = () => {
         const res = await fetch("/api/blog");
         const data = await res.json();
         dispatch(setBlogs(data));
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        throw new Error(error);
       }
     };
 
