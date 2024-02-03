@@ -2,19 +2,20 @@
 import React, { useEffect } from "react";
 import BlogCard from "./BlogCard";
 import { Blog } from "@/types/index";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setBlogs } from "@/lib/features/blogs/blogsSlice";
+import { useAppDispatch } from "@/lib/hooks";
+import { setBlogs as setGlobalBlogs } from "@/lib/features/blogs/blogsSlice";
 
 const Feed = () => {
-  const blogs = useAppSelector((state) => state.blogs);
   const dispatch = useAppDispatch();
+  const [blogs, setBlogs] = React.useState<Blog[] | null>(null);
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const res = await fetch("/api/blog");
         const data = await res.json();
-        dispatch(setBlogs(data));
+        setBlogs(data);
+        dispatch(setGlobalBlogs(data));
       } catch (error: any) {
         throw new Error(error);
       }
