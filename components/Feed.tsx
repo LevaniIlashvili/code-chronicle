@@ -24,6 +24,8 @@ const Feed = () => {
     fetchBlogs();
   }, []);
 
+  console.log(blogs);
+
   if (!blogs) return <p>Loading...</p>;
 
   return (
